@@ -1,0 +1,220 @@
+
+-- ============================================
+-- CREDIT UTILIZATION & REVENUE INTELLIGENCE
+-- DAX MEASURES FILE
+-- ============================================
+
+
+-- ================================
+-- 🔹 TOTAL SPEND (All Bills)
+-- ================================
+Total_Spend = 
+SUMX(
+    final_credit_data,
+    final_credit_data[BILL_AMT1] +
+    final_credit_data[BILL_AMT2] +
+    final_credit_data[BILL_AMT3] +
+    final_credit_data[BILL_AMT4] +
+    final_credit_data[BILL_AMT5] +
+    final_credit_data[BILL_AMT6]
+)
+
+
+-- ================================
+-- 🔹 TOTAL PAYMENT (All Months)
+-- ================================
+Total_Payment_All = 
+SUMX(
+    final_credit_data,
+    final_credit_data[PAY_AMT1] +
+    final_credit_data[PAY_AMT2] +
+    final_credit_data[PAY_AMT3] +
+    final_credit_data[PAY_AMT4] +
+    final_credit_data[PAY_AMT5] +
+    final_credit_data[PAY_AMT6]
+)
+
+
+-- ================================
+-- 🔹 TOTAL CUSTOMERS
+-- ================================
+Total_Customers = 
+COUNT(final_credit_data[ID])
+
+
+-- ================================
+-- 🔹 AVERAGE UTILIZATION %
+-- ================================
+Avg_Utilization = 
+AVERAGE(final_credit_data[Utilization_%])
+
+
+-- ================================
+-- 🔹 HIGH UTILIZATION %
+-- ================================
+High_Util_% = 
+DIVIDE(
+    CALCULATE(
+        COUNT(final_credit_data[ID]),
+        final_credit_data[Utilization_Segment] = "High"
+    ),
+    COUNT(final_credit_data[ID])
+)
+
+
+-- ================================
+-- 🔹 LOW UTILIZATION COUNT
+-- ================================
+Low_Util_Count = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Utilization_Segment] = "Low"
+)
+
+
+-- ================================
+-- 🔹 HIGH UTILIZATION COUNT
+-- ================================
+High_Util_Count = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Utilization_Segment] = "High"
+)
+
+
+-- ================================
+-- 🔹 OVER UTILIZED CUSTOMERS
+-- ================================
+Over_Utilized = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Utilization_%] > 1
+)
+
+
+-- ================================
+-- 🔹 HIGH RISK CUSTOMERS
+-- ================================
+High_Risk = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Risk_Flag] = 1
+)
+
+
+-- ================================
+-- 🔹 UNUSED CREDIT
+-- ================================
+Unused_Credit = 
+SUMX(
+    final_credit_data,
+    final_credit_data[LIMIT_BAL] - final_credit_data[Total_Spend]
+)
+
+
+-- ================================
+-- 🔹 AVERAGE GAP (LOW UTIL)
+-- ================================
+Avg_Gap_Low = 
+CALCULATE(
+    AVERAGEX(
+        final_credit_data,
+        final_credit_data[LIMIT_BAL] - final_credit_data[Total_Spend]
+    ),
+    final_credit_data[Utilization_Segment] = "Low"
+)
+
+
+-- ================================
+-- 🔹 UPSELL TARGET CUSTOMERS
+-- ================================
+Upsell_Target = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Utilization_Segment] = "Low",
+    final_credit_data[LIMIT_BAL] > 200000
+)
+
+
+-- ================================
+-- 🔹 UPSELL CONVERSION %
+-- ================================
+Upsell_Conversion_% = 
+DIVIDE(
+    [Upsell_Target],
+    COUNT(final_credit_data[ID])
+)
+
+
+-- ================================
+-- 🔹 HIGH LIMIT LOW USE CUSTOMERS
+-- ================================
+HighLimit_LowUse = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Utilization_Segment] = "Low",
+    final_credit_data[LIMIT_BAL] > 200000
+)
+
+
+-- ================================
+-- 🔹 INACTIVE USERS
+-- ================================
+Inactive_Users = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Total_Spend] = 0
+)
+
+
+-- ================================
+-- 🔹 REVENUE OPPORTUNITY
+-- ================================
+Revenue_Opportunity = 
+SUMX(
+    final_credit_data,
+    final_credit_data[LIMIT_BAL] - final_credit_data[Total_Spend]
+)
+
+
+-- ================================
+-- 🔹 DEFAULT RATE %
+-- ================================
+Default_Rate = 
+DIVIDE(
+    CALCULATE(
+        COUNT(final_credit_data[ID]),
+        final_credit_data[Risk_Flag] = 1
+    ),
+    COUNT(final_credit_data[ID])
+)
+
+
+-- ================================
+-- 🔹 REDUCE CUSTOMERS
+-- ================================
+Reduce_Customers = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Recommended_Action] = "Reduce / Monitor"
+)
+
+
+-- ================================
+-- 🔹 MAINTAIN CUSTOMERS
+-- ================================
+Maintain_Customers = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Recommended_Action] = "Maintain"
+)
+
+
+-- ================================
+-- 🔹 INCREASE CUSTOMERS
+-- ================================
+Increase_Customers = 
+CALCULATE(
+    COUNT(final_credit_data[ID]),
+    final_credit_data[Recommended_Action] = "Increase Limit"
+)
