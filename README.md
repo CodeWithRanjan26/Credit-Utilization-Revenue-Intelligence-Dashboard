@@ -176,10 +176,10 @@ The goal of this project is to:
 
 ---
 
-## 🔗 Resources
+## 🔗 Resources Download Here
 
-* 📊 Power BI Dashboard → [https://drive.google.com/file/d/1bHrmjppv6w150FlhYYlb289Z2ggfBWXF/view?usp=sharing]
-* 📂 Dataset → [https://drive.google.com/file/d/1Gr-2jx61WbvOZ9N5eG_6ZrdXEI-FGz5B/view?usp=sharing]
+* 📊 [Power BI Dashboard](https://drive.google.com/file/d/1bHrmjppv6w150FlhYYlb289Z2ggfBWXF/view?usp=sharing)
+* 📂 [Dataset](https://drive.google.com/file/d/1Gr-2jx61WbvOZ9N5eG_6ZrdXEI-FGz5B/view?usp=sharing)
 
 ---
 
