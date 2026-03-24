@@ -193,7 +193,9 @@ The goal of this project is to:
 
 #PowerBI #DataAnalytics #SQL #Python #BusinessIntelligence
 #DataVisualization #Dashboard #AnalyticsProject #DataAnalyst
-#DecisionMaking #FinTech #CreditRisk #DataScience
+#DecisionMaking #FinTech #CreditRisk #DataScience #Credit Utilization
+#Credit Utilization & Revenue Intelligence Dashboard
+#Revenue Intelligence Dashboard
 
 ---
 
